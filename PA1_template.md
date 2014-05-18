@@ -224,9 +224,11 @@ amdimpute$weeks[!(amdimpute$weekdays == "Saturday" | amdimpute$weekdays == "Sund
 ```r
 library(lattice)
 xyplot(steps ~ interval | weeks, data = amdimpute, type = "l", xlab = "Interval", 
-    ylab = "Number of steps")
+    ylab = "Number of steps", layout = c(1, 2))
 ```
 
 ![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-17.png) 
+
+
 
 

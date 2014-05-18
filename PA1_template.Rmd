@@ -105,7 +105,9 @@ amdimpute$weeks[!(amdimpute$weekdays=="Saturday" | amdimpute$weekdays=="Sunday")
 
 ```{r,echo=TRUE}
 library(lattice)
-xyplot(steps~interval | weeks,data=amdimpute,type="l",xlab="Interval", ylab="Number of steps")
+xyplot(steps~interval | weeks,data=amdimpute,type="l",xlab="Interval", ylab="Number of steps",layout=c(1,2))
 
 ```
+
+
 
