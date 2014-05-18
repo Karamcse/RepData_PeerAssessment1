@@ -210,3 +210,23 @@ median(amdmeltimpute$sum1, na.rm = T)
 
 
 ## 5) Are there differences in activity patterns between weekdays and weekends?
+
+
+```r
+amdimpute$weekdays <- weekdays(amdimpute$date)
+
+amdimpute$weeks[(amdimpute$weekdays == "Saturday" | amdimpute$weekdays == "Sunday")] <- "weekend"
+amdimpute$weeks[!(amdimpute$weekdays == "Saturday" | amdimpute$weekdays == "Sunday")] <- "weekdays"
+```
+
+
+
+```r
+library(lattice)
+xyplot(steps ~ interval | weeks, data = amdimpute, type = "l", xlab = "Interval", 
+    ylab = "Number of steps")
+```
+
+![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-17.png) 
+
+
