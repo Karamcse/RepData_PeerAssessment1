@@ -1,19 +1,19 @@
 # Reproducible Research: Peer Assessment 1
 
 
-## Loading and preprocessing the data
-```{r}
+## 1) Loading and preprocessing the data
+```{r,echo=TRUE}
 amd<-read.csv("./activity.csv",header=T,sep=",")
 str(amd)
 ```
 ### Process/transform the date field in Activity monitoring data into a date format suitable for your analysis
-```{r}
+```{r,echo=TRUE}
 amd$date<-as.Date(amd$date)
 str(amd)
 ```
 
-## What is mean total number of steps taken per day?
-### Make a histogram of the total number of steps taken each day
+## 2) What is mean total number of steps taken per day?
+### i) Make a histogram of the total number of steps taken each day
 ```{r,results='hide'}
 amdsteps<-tapply(amd$steps,amd$date,sum)
 ```
@@ -23,25 +23,74 @@ amdmelt<-melt(amdsteps)
 names(amdmelt)<-c("date1","sum1")
 head(amdmelt)
 ```
-```{r}
-library(ggplot2)
-qplot(data=amdmelt,sum1,fill=date1,binwidth=1000)
-```
-### Calculate and report the mean and median total number of steps taken per day
 ```{r,echo=TRUE}
-tapply(amd$steps,amd$date,mean)
-tapply(amd$steps,amd$date,median)
+library(ggplot2)
+qplot(data=amdmelt,sum1,fill=date1,binwidth=1000,xlab="Steps")
+```
+### ii) Calculate and report the mean and median total number of steps taken per day
+```{r,echo=TRUE}
+mean(amdmelt$sum1,na.rm=T);median(amdmelt$sum1,na.rm=T)
 
 ```
 
+## 3) What is the average daily activity pattern?
+
+### i) Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+
+```{r,echo=TRUE}
+amdavg<-tapply(amd$steps,amd$interval,mean,na.rm=T)
+amdmelt_avg<-melt(amdavg)
+names(amdmelt_avg)<-c("interval","avg")
+nrow(amdmelt_avg)
+plot(avg~interval,data=amdmelt_avg,type="l",main="Average daily activity pattern")
+```
+### ii) which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+```{r,echo=TRUE}
+amdmelt_avg[amdmelt_avg$avg==max(amdmelt_avg$avg),]
+```
+
+## 4) Imputing missing values
+
+### i) Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
+```{r,echo=TRUE}
+colSums(is.na(amd))
+
+```
+### ii) Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
+```{r,echo=TRUE}
+mean(amd$steps,na.rm=T)
+
+```
+
+#### iii) Create a new dataset that is equal to the original dataset but with the missing data filled in.
+
+```{r,echo=TRUE}
+amdimpute<-amd
+amdimpute$steps[is.na(amdimpute$steps)]<-mean(amdimpute$steps,na.rm=T)
+colSums(is.na(amdimpute))
+
+```
+
+### iv) Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
+
+```{r,results='hide'}
+amdimputesteps<-tapply(amdimpute$steps,amdimpute$date,sum)
+```
+```{r,echo=TRUE}
+library(reshape2)
+amdmeltimpute<-melt(amdimputesteps)
+names(amdmeltimpute)<-c("date1","sum1")
+head(amdmeltimpute)
+```
+```{r,echo=TRUE}
+library(ggplot2)
+qplot(data=amdmeltimpute,sum1,fill=date1,binwidth=1000,xlab="Steps")
+```
+### ii) Calculate and report the mean and median total number of steps taken per day
+```{r,echo=TRUE}
+mean(amdmeltimpute$sum1,na.rm=T);median(amdmeltimpute$sum1,na.rm=T)
+```
+#### (Mean = Median) after imputing missing value with mean value of steps. Now it became less skewed. 
 
 
-## What is the average daily activity pattern?
-
-
-
-## Imputing missing values
-
-
-
-## Are there differences in activity patterns between weekdays and weekends?
+## 5) Are there differences in activity patterns between weekdays and weekends?

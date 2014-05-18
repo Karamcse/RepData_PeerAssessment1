@@ -1,7 +1,7 @@
 # Reproducible Research: Peer Assessment 1
 
 
-## Loading and preprocessing the data
+## 1) Loading and preprocessing the data
 
 ```r
 amd <- read.csv("./activity.csv", header = T, sep = ",")
@@ -30,8 +30,8 @@ str(amd)
 ```
 
 
-## What is mean total number of steps taken per day?
-### Make a histogram of the total number of steps taken each day
+## 2) What is mean total number of steps taken per day?
+### i) Make a histogram of the total number of steps taken each day
 
 ```r
 amdsteps <- tapply(amd$steps, amd$date, sum)
@@ -58,80 +58,155 @@ head(amdmelt)
 
 ```r
 library(ggplot2)
-qplot(data = amdmelt, sum1, fill = date1, binwidth = 1000)
+qplot(data = amdmelt, sum1, fill = date1, binwidth = 1000, xlab = "Steps")
 ```
 
 ![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
 
-### Calculate and report the mean and median total number of steps taken per day
+### ii) Calculate and report the mean and median total number of steps taken per day
 
 ```r
-tapply(amd$steps, amd$date, mean)
+mean(amdmelt$sum1, na.rm = T)
 ```
 
 ```
-## 2012-10-01 2012-10-02 2012-10-03 2012-10-04 2012-10-05 2012-10-06 
-##         NA     0.4375    39.4167    42.0694    46.1597    53.5417 
-## 2012-10-07 2012-10-08 2012-10-09 2012-10-10 2012-10-11 2012-10-12 
-##    38.2465         NA    44.4826    34.3750    35.7778    60.3542 
-## 2012-10-13 2012-10-14 2012-10-15 2012-10-16 2012-10-17 2012-10-18 
-##    43.1458    52.4236    35.2049    52.3750    46.7083    34.9167 
-## 2012-10-19 2012-10-20 2012-10-21 2012-10-22 2012-10-23 2012-10-24 
-##    41.0729    36.0938    30.6285    46.7361    30.9653    29.0104 
-## 2012-10-25 2012-10-26 2012-10-27 2012-10-28 2012-10-29 2012-10-30 
-##     8.6528    23.5347    35.1354    39.7847    17.4236    34.0938 
-## 2012-10-31 2012-11-01 2012-11-02 2012-11-03 2012-11-04 2012-11-05 
-##    53.5208         NA    36.8056    36.7049         NA    36.2465 
-## 2012-11-06 2012-11-07 2012-11-08 2012-11-09 2012-11-10 2012-11-11 
-##    28.9375    44.7326    11.1771         NA         NA    43.7778 
-## 2012-11-12 2012-11-13 2012-11-14 2012-11-15 2012-11-16 2012-11-17 
-##    37.3785    25.4722         NA     0.1424    18.8924    49.7882 
-## 2012-11-18 2012-11-19 2012-11-20 2012-11-21 2012-11-22 2012-11-23 
-##    52.4653    30.6979    15.5278    44.3993    70.9271    73.5903 
-## 2012-11-24 2012-11-25 2012-11-26 2012-11-27 2012-11-28 2012-11-29 
-##    50.2708    41.0903    38.7569    47.3819    35.3576    24.4688 
-## 2012-11-30 
-##         NA
+## [1] 10766
 ```
 
 ```r
-tapply(amd$steps, amd$date, median)
+median(amdmelt$sum1, na.rm = T)
 ```
 
 ```
-## 2012-10-01 2012-10-02 2012-10-03 2012-10-04 2012-10-05 2012-10-06 
-##         NA          0          0          0          0          0 
-## 2012-10-07 2012-10-08 2012-10-09 2012-10-10 2012-10-11 2012-10-12 
-##          0         NA          0          0          0          0 
-## 2012-10-13 2012-10-14 2012-10-15 2012-10-16 2012-10-17 2012-10-18 
-##          0          0          0          0          0          0 
-## 2012-10-19 2012-10-20 2012-10-21 2012-10-22 2012-10-23 2012-10-24 
-##          0          0          0          0          0          0 
-## 2012-10-25 2012-10-26 2012-10-27 2012-10-28 2012-10-29 2012-10-30 
-##          0          0          0          0          0          0 
-## 2012-10-31 2012-11-01 2012-11-02 2012-11-03 2012-11-04 2012-11-05 
-##          0         NA          0          0         NA          0 
-## 2012-11-06 2012-11-07 2012-11-08 2012-11-09 2012-11-10 2012-11-11 
-##          0          0          0         NA         NA          0 
-## 2012-11-12 2012-11-13 2012-11-14 2012-11-15 2012-11-16 2012-11-17 
-##          0          0         NA          0          0          0 
-## 2012-11-18 2012-11-19 2012-11-20 2012-11-21 2012-11-22 2012-11-23 
-##          0          0          0          0          0          0 
-## 2012-11-24 2012-11-25 2012-11-26 2012-11-27 2012-11-28 2012-11-29 
-##          0          0          0          0          0          0 
-## 2012-11-30 
-##         NA
+## [1] 10765
 ```
 
 
+## 3) What is the average daily activity pattern?
+
+### i) Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 
 
-## What is the average daily activity pattern?
+```r
+amdavg <- tapply(amd$steps, amd$interval, mean, na.rm = T)
+amdmelt_avg <- melt(amdavg)
+names(amdmelt_avg) <- c("interval", "avg")
+nrow(amdmelt_avg)
+```
+
+```
+## [1] 288
+```
+
+```r
+plot(avg ~ interval, data = amdmelt_avg, type = "l", main = "Average daily activity pattern")
+```
+
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
+
+### ii) which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+
+```r
+amdmelt_avg[amdmelt_avg$avg == max(amdmelt_avg$avg), ]
+```
+
+```
+##     interval   avg
+## 104      835 206.2
+```
 
 
+## 4) Imputing missing values
 
-## Imputing missing values
+### i) Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
+
+```r
+colSums(is.na(amd))
+```
+
+```
+##    steps     date interval 
+##     2304        0        0
+```
+
+### ii) Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
+
+```r
+mean(amd$steps, na.rm = T)
+```
+
+```
+## [1] 37.38
+```
 
 
+#### iii) Create a new dataset that is equal to the original dataset but with the missing data filled in.
 
-## Are there differences in activity patterns between weekdays and weekends?
+
+```r
+amdimpute <- amd
+amdimpute$steps[is.na(amdimpute$steps)] <- mean(amdimpute$steps, na.rm = T)
+colSums(is.na(amdimpute))
+```
+
+```
+##    steps     date interval 
+##        0        0        0
+```
+
+
+### iv) Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
+
+
+```r
+amdimputesteps <- tapply(amdimpute$steps, amdimpute$date, sum)
+```
+
+
+```r
+library(reshape2)
+amdmeltimpute <- melt(amdimputesteps)
+names(amdmeltimpute) <- c("date1", "sum1")
+head(amdmeltimpute)
+```
+
+```
+##        date1  sum1
+## 1 2012-10-01 10766
+## 2 2012-10-02   126
+## 3 2012-10-03 11352
+## 4 2012-10-04 12116
+## 5 2012-10-05 13294
+## 6 2012-10-06 15420
+```
+
+
+```r
+library(ggplot2)
+qplot(data = amdmeltimpute, sum1, fill = date1, binwidth = 1000, xlab = "Steps")
+```
+
+![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14.png) 
+
+### ii) Calculate and report the mean and median total number of steps taken per day
+
+```r
+mean(amdmeltimpute$sum1, na.rm = T)
+```
+
+```
+## [1] 10766
+```
+
+```r
+median(amdmeltimpute$sum1, na.rm = T)
+```
+
+```
+## [1] 10766
+```
+
+#### (Mean = Median) after imputing missing value with mean value of steps. Now it became less skewed. 
+
+
+## 5) Are there differences in activity patterns between weekdays and weekends?
