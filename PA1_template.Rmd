@@ -25,16 +25,16 @@ amdsteps<-tapply(amd$steps,amd$date,sum)
 ```{r,echo=TRUE}
 library(reshape2)
 amdmelt<-melt(amdsteps)
-names(amdmelt)<-c("date1","sum1")
+names(amdmelt)<-c('Date','SumofSteps')
 head(amdmelt)
 ```
 ```{r,echo=TRUE}
-library(ggplot2)
-qplot(data=amdmelt,sum1,fill=date1,binwidth=1000,xlab="Steps")
+
+hist(amdmelt$SumofSteps,main="Histogram of Total Number of Steps per Day",xlab="Total Number of Steps per Day",ylab="Frequency",col='blue',breaks=30)
 ```
 ### ii) Calculate and report the mean and median total number of steps taken per day
 ```{r,echo=TRUE}
-mean(amdmelt$sum1,na.rm=T);median(amdmelt$sum1,na.rm=T)
+mean(amdmelt$SumofSteps,na.rm=T);median(amdmelt$SumofSteps,na.rm=T)
 
 ```
 
@@ -84,16 +84,15 @@ amdimputesteps<-tapply(amdimpute$steps,amdimpute$date,sum)
 ```{r,echo=TRUE}
 library(reshape2)
 amdmeltimpute<-melt(amdimputesteps)
-names(amdmeltimpute)<-c("date1","sum1")
+names(amdmeltimpute)<-c('Date','SumofSteps')
 head(amdmeltimpute)
 ```
 ```{r,echo=TRUE}
-library(ggplot2)
-qplot(data=amdmeltimpute,sum1,fill=date1,binwidth=1000,xlab="Steps")
+hist(amdmeltimpute$SumofSteps,main="Histogram of Total Number of Steps per Day",xlab="Total Number of Steps per Day",ylab="Frequency",col='blue',breaks=30)
 ```
 ### ii) Calculate and report the mean and median total number of steps taken per day
 ```{r,echo=TRUE}
-mean(amdmeltimpute$sum1,na.rm=T);median(amdmeltimpute$sum1,na.rm=T)
+mean(amdmeltimpute$SumofSteps,na.rm=T);median(amdmeltimpute$SumofSteps,na.rm=T)
 ```
 #### (Mean = Median) after imputing missing value with mean value of steps. Now it became less skewed. 
 

@@ -46,24 +46,26 @@ amdsteps <- tapply(amd$steps, amd$date, sum)
 ```r
 library(reshape2)
 amdmelt <- melt(amdsteps)
-names(amdmelt) <- c("date1", "sum1")
+names(amdmelt) <- c("Date", "SumofSteps")
 head(amdmelt)
 ```
 
 ```
-##        date1  sum1
-## 1 2012-10-01    NA
-## 2 2012-10-02   126
-## 3 2012-10-03 11352
-## 4 2012-10-04 12116
-## 5 2012-10-05 13294
-## 6 2012-10-06 15420
+##         Date SumofSteps
+## 1 2012-10-01         NA
+## 2 2012-10-02        126
+## 3 2012-10-03      11352
+## 4 2012-10-04      12116
+## 5 2012-10-05      13294
+## 6 2012-10-06      15420
 ```
 
 
 ```r
-library(ggplot2)
-qplot(data = amdmelt, sum1, fill = date1, binwidth = 1000, xlab = "Steps")
+
+hist(amdmelt$SumofSteps, main = "Histogram of Total Number of Steps per Day", 
+    xlab = "Total Number of Steps per Day", ylab = "Frequency", col = "blue", 
+    breaks = 30)
 ```
 
 ![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
@@ -71,7 +73,7 @@ qplot(data = amdmelt, sum1, fill = date1, binwidth = 1000, xlab = "Steps")
 ### ii) Calculate and report the mean and median total number of steps taken per day
 
 ```r
-mean(amdmelt$sum1, na.rm = T)
+mean(amdmelt$SumofSteps, na.rm = T)
 ```
 
 ```
@@ -79,7 +81,7 @@ mean(amdmelt$sum1, na.rm = T)
 ```
 
 ```r
-median(amdmelt$sum1, na.rm = T)
+median(amdmelt$SumofSteps, na.rm = T)
 ```
 
 ```
@@ -171,24 +173,25 @@ amdimputesteps <- tapply(amdimpute$steps, amdimpute$date, sum)
 ```r
 library(reshape2)
 amdmeltimpute <- melt(amdimputesteps)
-names(amdmeltimpute) <- c("date1", "sum1")
+names(amdmeltimpute) <- c("Date", "SumofSteps")
 head(amdmeltimpute)
 ```
 
 ```
-##        date1  sum1
-## 1 2012-10-01 10766
-## 2 2012-10-02   126
-## 3 2012-10-03 11352
-## 4 2012-10-04 12116
-## 5 2012-10-05 13294
-## 6 2012-10-06 15420
+##         Date SumofSteps
+## 1 2012-10-01      10766
+## 2 2012-10-02        126
+## 3 2012-10-03      11352
+## 4 2012-10-04      12116
+## 5 2012-10-05      13294
+## 6 2012-10-06      15420
 ```
 
 
 ```r
-library(ggplot2)
-qplot(data = amdmeltimpute, sum1, fill = date1, binwidth = 1000, xlab = "Steps")
+hist(amdmeltimpute$SumofSteps, main = "Histogram of Total Number of Steps per Day", 
+    xlab = "Total Number of Steps per Day", ylab = "Frequency", col = "blue", 
+    breaks = 30)
 ```
 
 ![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14.png) 
@@ -200,7 +203,11 @@ mean(amdmeltimpute$sum1, na.rm = T)
 ```
 
 ```
-## [1] 10766
+## Warning: argument is not numeric or logical: returning NA
+```
+
+```
+## [1] NA
 ```
 
 ```r
@@ -208,7 +215,11 @@ median(amdmeltimpute$sum1, na.rm = T)
 ```
 
 ```
-## [1] 10766
+## Warning: is.na() applied to non-(list or vector) of type 'NULL'
+```
+
+```
+## NULL
 ```
 
 #### (Mean = Median) after imputing missing value with mean value of steps. Now it became less skewed. 
