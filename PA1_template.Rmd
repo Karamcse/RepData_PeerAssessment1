@@ -115,6 +115,7 @@ head(week_comp)
 ```
 
 
+
 ```{r,echo=TRUE}
 library(lattice)
 xyplot(steps~interval | weeks,data=week_comp,type="l",xlab="Interval", ylab="Number of steps",layout=c(1,2))
