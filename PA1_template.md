@@ -250,7 +250,6 @@ head(week_comp)
 
 
 
-
 ```r
 library(lattice)
 xyplot(steps ~ interval | weeks, data = week_comp, type = "l", xlab = "Interval", 
@@ -258,7 +257,4 @@ xyplot(steps ~ interval | weeks, data = week_comp, type = "l", xlab = "Interval"
 ```
 
 ![plot of chunk unnamed-chunk-18](figure/unnamed-chunk-18.png) 
-
-
-
 
