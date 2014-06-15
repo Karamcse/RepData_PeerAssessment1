@@ -88,7 +88,7 @@ names(amdmeltimpute)<-c('Date','SumofSteps')
 head(amdmeltimpute)
 ```
 ```{r,echo=TRUE}
-hist(amdmeltimpute$SumofSteps,main="Histogram of Total Number of Steps per Day",xlab="Total Number of Steps per Day",ylab="Frequency",col='blue',breaks=30)
+hist(amdmeltimpute$SumofSteps,main="Histogram of Total Number of Steps per Day on  Impute Value",xlab="Total Number of Steps per Day",ylab="Frequency",col='blue',breaks=30)
 ```
 ### ii) Calculate and report the mean and median total number of steps taken per day
 ```{r,echo=TRUE}

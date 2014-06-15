@@ -189,7 +189,7 @@ head(amdmeltimpute)
 
 
 ```r
-hist(amdmeltimpute$SumofSteps, main = "Histogram of Total Number of Steps per Day", 
+hist(amdmeltimpute$SumofSteps, main = "Histogram of Total Number of Steps per Day on  Impute Value", 
     xlab = "Total Number of Steps per Day", ylab = "Frequency", col = "blue", 
     breaks = 30)
 ```
