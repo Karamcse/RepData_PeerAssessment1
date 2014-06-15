@@ -108,10 +108,15 @@ amdimpute$weeks[!(amdimpute$weekdays=="Saturday" | amdimpute$weekdays=="Sunday")
 ```
 
 ```{r,echo=TRUE}
-library(lattice)
-xyplot(steps~interval | weeks,data=amdimpute,type="l",xlab="Interval", ylab="Number of steps",layout=c(1,2))
+library(plyr)
+week_comp<- ddply(amdimpute, c("interval","weeks"), function (x) apply(x[1], 2, mean))
+head(week_comp)
 
 ```
 
 
+```{r,echo=TRUE}
+library(lattice)
+xyplot(steps~interval | weeks,data=week_comp,type="l",xlab="Interval", ylab="Number of steps",layout=c(1,2))
 
+```

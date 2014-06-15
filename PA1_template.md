@@ -199,27 +199,19 @@ hist(amdmeltimpute$SumofSteps, main = "Histogram of Total Number of Steps per Da
 ### ii) Calculate and report the mean and median total number of steps taken per day
 
 ```r
-mean(amdmeltimpute$sum1, na.rm = T)
+mean(amdmeltimpute$SumofSteps, na.rm = T)
 ```
 
 ```
-## Warning: argument is not numeric or logical: returning NA
-```
-
-```
-## [1] NA
+## [1] 10766
 ```
 
 ```r
-median(amdmeltimpute$sum1, na.rm = T)
+median(amdmeltimpute$SumofSteps, na.rm = T)
 ```
 
 ```
-## Warning: is.na() applied to non-(list or vector) of type 'NULL'
-```
-
-```
-## NULL
+## [1] 10766
 ```
 
 #### (Mean = Median) after imputing missing value with mean value of steps. Now it became less skewed. 
@@ -238,12 +230,34 @@ amdimpute$weeks[!(amdimpute$weekdays == "Saturday" | amdimpute$weekdays == "Sund
 
 
 ```r
+library(plyr)
+week_comp <- ddply(amdimpute, c("interval", "weeks"), function(x) apply(x[1], 
+    2, mean))
+head(week_comp)
+```
+
+```
+##   interval    weeks steps
+## 1        0 weekdays 7.007
+## 2        0  weekend 4.673
+## 3        5 weekdays 5.384
+## 4        5  weekend 4.673
+## 5       10 weekdays 5.140
+## 6       10  weekend 4.673
+```
+
+
+
+
+
+
+```r
 library(lattice)
-xyplot(steps ~ interval | weeks, data = amdimpute, type = "l", xlab = "Interval", 
+xyplot(steps ~ interval | weeks, data = week_comp, type = "l", xlab = "Interval", 
     ylab = "Number of steps", layout = c(1, 2))
 ```
 
-![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-17.png) 
+![plot of chunk unnamed-chunk-18](figure/unnamed-chunk-18.png) 
 
 
 
