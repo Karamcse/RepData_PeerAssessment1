@@ -4,7 +4,12 @@
 ## 1) Loading and preprocessing the data
 
 ```r
-amd <- read.csv("./activity.csv", header = T, sep = ",")
+if (!file.exists("../ProjectData/activity.csv")) {
+    download.file(url = "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip", 
+        destfile = "../activity.zip", method = "auto")
+    unzip("../activity.zip", exdir = "../ProjectData")
+}
+amd <- read.csv("../ProjectData/activity.csv", header = T, sep = ",")
 str(amd)
 ```
 
